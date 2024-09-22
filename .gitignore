@@ -1,0 +1,6 @@
+client/node_modules/
+client/.expo/
+client/.env
+server/node_modules/
+server/.env
+.env

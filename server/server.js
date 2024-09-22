@@ -57,5 +57,5 @@ app.post('/login', async (req, res) => {
 });
 
 app.listen(8080, () => {
-  console.log('Server running on http://192.168.50.169:8080');
+  console.log(`Server running on http://${process.env.IP_ADDRESS}:8080`);
 });

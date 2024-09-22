@@ -14,7 +14,7 @@ export default function UserScreen() {
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://192.168.50.169:8080/login', {
+      const response = await fetch(`http://${process.env.IP_ADDRESS}:8080/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -37,7 +37,7 @@ export default function UserScreen() {
   const handleSignUp = async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://192.168.50.169:8080/signup', {
+      const response = await fetch(`http://${process.env.IP_ADDRESS}:8080/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
