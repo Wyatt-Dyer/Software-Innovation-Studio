@@ -8,4 +8,4 @@ Swethashree Ganesh
 Wyatt Dyer
 Aneeka Mehta
 Dulya Manodara
-Sauhasrdha Pandey
+Sauhardha Pandey
