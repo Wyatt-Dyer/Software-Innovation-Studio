@@ -58,7 +58,7 @@ app.post('/login', async (req, res) => {
 
 // OpenAI API initialization with API key directly in the code
 const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 // Chat route for handling prompts
