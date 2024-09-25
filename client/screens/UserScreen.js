@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Alert, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Ensure you have this package installed
+import Icon from 'react-native-vector-icons/FontAwesome'; // Fontawesome
 
 export default function UserScreen() {
   const [email, setEmail] = useState('');
@@ -64,34 +64,36 @@ export default function UserScreen() {
 
   // Correctly place the return statement
   return (
+    
     <View className="flex-1 justify-center p-0 bg-gray-100">
+      
       {isLoggedIn ? (
-        <View className="flex-1 items-center justify-center bg-green-700">
+        <View className="flex-1 items-center justify-center bg-cyan-500">
           <Icon name="user" size={60} color="#000" />
           <Text className="text-lg mt-2">Logged In Successfully as {username.toUpperCase()}</Text>
         </View>
       ) : (
-        <>
+        <View className="flex flex-col items-center">
           <Text className="text-2xl font-bold text-center mb-6">User Login</Text>
           
           <TextInput
             placeholder="Email"
             value={email}
             onChangeText={setEmail}
-            className="bg-white p-3 rounded-md mb-4"
+            className="bg-white p-3 w-80 rounded-md mb-4"
           />
           <TextInput
             placeholder="Password"
             value={password}
             onChangeText={setPassword}
             secureTextEntry
-            className="bg-white p-3 rounded-md mb-6"
+            className="bg-white p-3 w-80 rounded-md mb-6"
           />
 
           <Button
             mode="contained"
             onPress={handleLogin}
-            className="mb-4"
+            className="mb-4 w-40"
             disabled={loading}
           >
             {loading ? <ActivityIndicator color="#ffffff" /> : 'Login'}
@@ -100,11 +102,12 @@ export default function UserScreen() {
           <Button
             mode="outlined"
             onPress={handleSignUp}
+            className=" w-40"
             disabled={loading}
           >
             {loading ? <ActivityIndicator color="#000000" /> : 'Create Account'}
           </Button>
-        </>
+        </View>
       )}
     </View>
   );
