@@ -14,8 +14,8 @@ export default function ScanScreen() {
         <Text className="text-zinc-500 text-md font-bold self-end">AI Scanner</Text>
       </View>
 
-      <View className="flex-1 justify-center items-center">
-        <Text>Scan</Text>
+      <View className="flex-1 items-center justify-center" style={styles.container}>
+        <UploadModal />
       </View>
     </View>
   );
