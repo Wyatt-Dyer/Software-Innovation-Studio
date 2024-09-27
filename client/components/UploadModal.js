@@ -50,6 +50,29 @@ const UploadModal = () => {
     }
   };
 
+  const scanImage = async () => {
+    try {
+      if (havePermissions) {
+        let result = await ImagePicker.launchCameraAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: false,
+          aspect: [4, 3],
+          quality: 1,
+          cameraType: ImagePicker.CameraType.back,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+          setImage(result.assets[0].uri);
+        }
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       {image && <Image source={{ uri: image }} style={styles.image} />}
@@ -61,7 +84,7 @@ const UploadModal = () => {
           </View>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={pickImage}>
+      <TouchableOpacity style={styles.button} onPress={scanImage}>
           <View style={styles.buttonTextContainer}>
               <MaterialCommunityIcons name='camera-outline' size={30} color="#fff"/>
               <Text style={styles.buttonText}>Scan image</Text>
