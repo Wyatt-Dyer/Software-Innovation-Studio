@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const OpenAI = require('openai'); // Import OpenAI SDK
 require('dotenv').config();
 
 const app = express();
@@ -24,19 +25,18 @@ const User = mongoose.model('User', userSchema);
 
 // Signup route
 app.post('/signup', async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new User({ email, password: hashedPassword });
-      await newUser.save();
-      res.status(201).send('User created');
-    } catch (err) {
-      console.error('Error creating user:', err); // Log the error
-      res.status(400).send('Error creating user');
-    }
-  });
-  
+  const { email, password } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ email, password: hashedPassword });
+    await newUser.save();
+    res.status(201).send('User created');
+  } catch (err) {
+    console.error('Error creating user:', err); // Log the error
+    res.status(400).send('Error creating user');
+  }
+});
 
 // Login route
 app.post('/login', async (req, res) => {
@@ -56,6 +56,34 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// OpenAI API initialization with API key directly in the code
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Chat route for handling prompts
+app.post('/chat', async (req, res) => {
+  const { prompt } = req.body;
+
+  try {
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini', // Use the desired model
+      messages: [
+        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'user', content: prompt },
+      ],
+    });
+
+    // Respond with the assistant's response
+    res.json({ response: completion.choices[0].message.content });
+  } catch (error) {
+    // Log and return an error response
+    console.error('Error communicating with OpenAI:', error.response ? error.response.data : error.message);
+    res.status(500).send('Error communicating with OpenAI');
+  }
+});
+
+
 app.listen(8080, () => {
-  console.log(`Server running on http://${process.env.IP_ADDRESS}:8080`);
+  console.log('Server running on http://192.168.50.169:8080');
 });
