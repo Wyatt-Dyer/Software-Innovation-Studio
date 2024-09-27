@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import UploadModal from '../components/UploadModal-Backup';
 
 export default function ScanScreen() {
   return (
@@ -13,9 +14,17 @@ export default function ScanScreen() {
         <Text className="text-zinc-500 text-md font-bold self-end">AI Scanner</Text>
       </View>
 
-      <View className="flex-1 justify-center items-center">
-        <Text>Scan</Text>
+      <View className="flex-1 items-center justify-center" style={styles.container}>
+        <UploadModal />
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
