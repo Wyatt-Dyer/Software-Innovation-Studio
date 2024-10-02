@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, Platform, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, Image, Platform, Text, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -74,20 +74,20 @@ const UploadModal = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {image && <Image source={{ uri: image }} style={styles.image} />}
+    <View className="flex-1 items-center justify-center gap-y-12">
+      {image && <Image source={{ uri: image }} className="w-50 h-50 mt-5" />}
 
-      <TouchableOpacity style={styles.button} onPress={pickImage}>
-          <View style={styles.buttonTextContainer}>
-              <MaterialCommunityIcons name='image-outline' size={30} color="#fff"/>
-              <Text style={styles.buttonText}>Upload image</Text>
+      <TouchableOpacity onPress={pickImage} className="bg-green-500 min-h-18 min-w-9/10 p-5 rounded-lg items-center">
+          <View className="flex-row gap-x-5">
+              <MaterialCommunityIcons name="image-outline" size={30} color="#fff"/>
+              <Text className="text-white text-lg">Upload image</Text>
           </View>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={scanImage}>
-          <View style={styles.buttonTextContainer}>
-              <MaterialCommunityIcons name='camera-outline' size={30} color="#fff"/>
-              <Text style={styles.buttonText}>Scan image</Text>
+      <TouchableOpacity onPress={scanImage} className="bg-green-500 min-h-18 min-w-9/10 p-5 rounded-lg items-center">
+          <View className="flex-row gap-x-5">
+              <MaterialCommunityIcons name="camera-outline" size={30} color="#fff"/>
+              <Text className="text-white text-lg">Scan image</Text>
           </View>
       </TouchableOpacity>
     </View>
@@ -95,34 +95,3 @@ const UploadModal = () => {
 };
 
 export default UploadModal;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 50,
-    },
-    image: {
-        width: 200,
-        height: 200,
-        marginTop: 20,
-    },
-    button: {
-        backgroundColor: '#48bb78',
-        minHeight: 70,
-        minWidth: '90%',
-        padding: 20,
-        borderRadius: 5,
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: 'white',
-        fontSize: 16,
-    },
-    buttonTextContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        gap: 20,
-    },
-});
