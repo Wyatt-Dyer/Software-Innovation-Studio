@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import UploadModal from '../components/UploadModal-Backup';
+import UploadModal from '../components/UploadModal';
 
 export default function ScanScreen() {
   return (
