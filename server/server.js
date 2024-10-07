@@ -99,7 +99,7 @@ const speciesSchema = new mongoose.Schema({
 const Species = mongoose.model('Species', speciesSchema);
 
 // Ensure that keys file for the google cloud storage service account exists
-const gcsKeyPath = process.env.GCS_SERVICE_KEY_PATH;
+const gcsKeyPath = 'camprisma-gcs.json'
 const storage = new Storage({ keyFilename: path.join(__dirname, gcsKeyPath) });
 const bucket = storage.bucket('bucket-quickstart-camprismatest');
 const upload = multer({ storage: multer.memoryStorage() });
