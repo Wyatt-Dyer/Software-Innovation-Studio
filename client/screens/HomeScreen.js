@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Import the icon library
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useRoute } from '@react-navigation/native'; // Import useRoute
 
 // Example data for the feed
 const posts = [
@@ -10,7 +10,7 @@ const posts = [
     user: 'Alice',
     mushroom: 'Fly Agaric',
     description: 'Found this beautiful Fly Agaric in the forest today!',
-    image: 'https://cdn.pixabay.com/photo/2023/08/15/11/47/mushroom-8191823_1280.jpg', // Replace with actual image URLs
+    image: 'https://cdn.pixabay.com/photo/2023/08/15/11/47/mushroom-8191823_1280.jpg',
   },
   {
     id: '2',
@@ -23,6 +23,9 @@ const posts = [
 ];
 
 export default function HomeScreen() {
+  const route = useRoute(); // Get the route object
+  const { username } = route.params || {}; // Extract username from params
+
   const renderItem = ({ item }) => (
     <View className="bg-white p-4 mb-4 rounded-lg shadow-md">
       <Text className="text-lg font-semibold">{item.user}</Text>
@@ -38,17 +41,16 @@ export default function HomeScreen() {
   return (
     <View className="flex-1 bg-gray-100">
       <View className="p-8 pt-16 bg-neutral-200 flex justify-between">
+        <View className="flex-row items-center">
+          <Icon name="fire" size={30} color="#FF6F61" className="mr-2" />
+          <Text className="text-2xl font-bold text-slate-800">Camprisma</Text>
+        </View>
+        <Text className="text-zinc-500 text-md font-bold self-end">Welcome, {username || 'Guest'}</Text>
+      </View>
 
-      <View className="flex-row items-center">
-        <Icon name="fire" size={30} color="#FF6F61" className="mr-2" />
-        <Text className="text-2xl font-bold text-slate-800">Camprisma</Text>
-    </View>
-        <Text className="text-zinc-500 text-md font-bold self-end">Welcome, Opera</Text>
-    </View>
-
-    <View>
+      <View>
         <Text className="text-zinc-500 text-lg font-thin p-4">Recently Viewed</Text>
-    </View>
+      </View>
       <FlatList
         data={posts}
         renderItem={renderItem}
