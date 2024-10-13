@@ -2,6 +2,8 @@
 
 #Camprisma, the app for foragers, whether you are a beginner needing a start or a natural looking for new ways to elevate your bush cooking!
 
+Camprisma is a cutting-edge tool that allows users to easily identify the presence of toxins in fungi using AI image analysis and provides guidance on preparing the fungi in a camping setup
+
 SIS SPR2024
 Lily Watt
 Swethashree Ganesh
