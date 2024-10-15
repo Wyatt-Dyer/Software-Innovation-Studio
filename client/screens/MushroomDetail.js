@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
+import Disclaimer from '../components/LegalDisclaimer';
+import Markdown from 'react-native-markdown-display';
 
 // Sample mushroom details data
 const mushroomDetails = {
@@ -53,8 +55,18 @@ const mushroomDetails = {
 };
 
 const MushroomDetail = ({ route, navigation }) => {
-  const { mushroomId } = route.params;
-  const mushroom = mushroomDetails[mushroomId];
+  const { mushroomId, item } = route.params;
+
+  let mushroom;
+  if (mushroomId) {
+    mushroom = mushroomDetails[mushroomId];
+  } else {
+    // debugging: console.log('Item details: ', item)
+    mushroom = { ...item };
+    mushroom.name = 'Oyster mushroom'; // hard-coding until cv model is integrated
+    mushroom.image = item.imageUrl;
+    mushroom.description = 'Description';
+  }
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false); // State to manage loading
 
@@ -63,7 +75,7 @@ const MushroomDetail = ({ route, navigation }) => {
     setResponse(''); // Clear previous response
 
     try {
-      const res = await axios.post('http://192.168.50.169:8080/chat', { prompt });
+      const res = await axios.post('http://192.168.0.110:8080/chat', { prompt });
       setResponse(res.data.response);
     } catch (error) {
       console.error('Error fetching response:', error);
@@ -73,17 +85,22 @@ const MushroomDetail = ({ route, navigation }) => {
     }
   };
 
-
   return (
-      <ScrollView className="flex-1 p-4  bg-gray-100">
-          
-          <Image
-              source={{ uri: mushroom.image }}
-              className="w-full h-48 rounded-xl mb-4"
-              resizeMode="cover"
-          />
-          <Text className="text-2xl font-bold">{mushroom.name}</Text>
-          <Text className="text-lg text-gray-700 mt-2">{mushroom.description}</Text>
+    <ScrollView className="flex-1 p-4  bg-gray-100">
+      <TouchableOpacity
+      className='flex-row mt-2 mb-2 gap-2 items-center'
+      onPress={() => navigation.navigate('Campfire Home')}
+      >
+        <Icon name='arrow-back' size={20} />
+        <Text className='text-lg font-semibold'>Return to database</Text>
+      </TouchableOpacity>
+      <Image
+          source={{ uri: mushroom.image }}
+          className="w-full h-48 rounded-xl mb-4"
+          resizeMode="cover"
+      />
+      <Text className="text-2xl font-bold">{mushroom.name}</Text>
+      <Text className="text-lg text-gray-700 mt-2">{mushroom.description}</Text>
 
       <View className="flex-row justify-between mt-4 space-x-2">
         <TouchableOpacity
@@ -107,11 +124,11 @@ const MushroomDetail = ({ route, navigation }) => {
           className="flex-row items-center bg-rose-100 p-4 border-2 rounded-full"
         >
           <Icon name="location-on" size={20} color="#FF7E70" />
-          <Text className="text-slate-800 ml-2">Where to Find</Text>
-          </TouchableOpacity>
-        </View>
+          <Text className="text-slate-800 ml-2">Locations</Text>
+        </TouchableOpacity>
+      </View>
 
-        {loading ? (
+      {loading ? (
         // Display the loading spinner while the request is being processed
         <View className="mt-4 flex items-center">
           <ActivityIndicator size="large" color="#FF6F61" />
@@ -119,10 +136,13 @@ const MushroomDetail = ({ route, navigation }) => {
         </View>
       ) : (
         response ? (
-          <Text className="mt-4 pb-12 border border-gray-300 rounded">{response}</Text>
+          <>
+            <Markdown className="mt-4 pb-12">{response}</Markdown>
+            <Disclaimer />
+          </>
         ) : null
       )}
-      </ScrollView>
+    </ScrollView>
   );
 };
 

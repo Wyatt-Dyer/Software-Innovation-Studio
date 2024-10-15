@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useRoute } from '@react-navigation/native'; // Import useRoute
+import { useNavigation, useRoute } from '@react-navigation/native'; // Import useRoute
 import axios from 'axios';
 
 // Example data for the feed
@@ -27,10 +27,15 @@ export default function HomeScreen() {
   const route = useRoute(); // Get the route object
   const { username } = route.params || {}; // Extract username from params
 
+  const navigation = useNavigation(); // Get the navigation object
+
   useEffect(() => {
     (async () => {
       try {
         const response = await axios.get('http://192.168.0.110:8080/posts');
+        if (posts.length > 2) {
+          posts.splice(2); // remove all except mocked data before re-fetching posts
+        }
         for (let i = 0; i < response.data.length; i++) {
           const newPost = response.data[i];
           posts.push(newPost);
@@ -45,7 +50,10 @@ export default function HomeScreen() {
   }, []);
 
   const renderItem = ({ item }) => (
-    <View className="bg-white p-4 mb-4 rounded-lg shadow-md">
+    <TouchableOpacity className="bg-white p-4 mb-4 rounded-lg shadow-md" onPress={() => navigation.navigate('Campfire', {
+      screen: 'MushroomDetail',   // MushroomDetail is nested in Campfire screen
+      params: { id: '', item },  // Hard-coding id as an empty string, so that mocked data still renders
+    })}>
       <Text className="text-lg font-semibold">{item.user || 'Guest'}</Text>
       <Text className="text-sm text-gray-600">{item.name}</Text>
       <Image
@@ -53,7 +61,7 @@ export default function HomeScreen() {
         className="w-full h-48 rounded-lg my-2"
       />
       <Text className="text-gray-800">{item.description || 'Add description'}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
