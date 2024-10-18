@@ -76,6 +76,7 @@ async function processPhoto(photoPath) {
     }
 }
 
+// Uploads and saves image
 app.post('/upload', upload.single('photo'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
