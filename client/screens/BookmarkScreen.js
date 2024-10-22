@@ -10,11 +10,11 @@ export default function BookmarkScreen() {
           <Icon name="fire" size={30} color="#FF6F61" className="mr-2" />
           <Text className="text-2xl font-bold text-slate-800">Camprisma</Text>
         </View>
-        <Text className="text-zinc-500 text-md font-bold self-end">Bookmarks</Text>
+        <Text className="text-zinc-500 text-md font-bold self-end"> Saved Bookmarks</Text>
       </View>
 
       <View className="flex-1 justify-center items-center">
-        <Text>Add your bookmarks</Text>
+        <Text>Add your bookmarks here for easier referencing</Text>
       </View>
     </View>
   );
