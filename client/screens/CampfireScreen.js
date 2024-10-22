@@ -37,6 +37,7 @@ export default function CampfireScreen({ navigation }) {
           <Text className="text-2xl font-bold text-slate-800">Camprisma</Text>
         </View>
         <Text className="text-zinc-500 text-md font-bold self-end">Mushroom Database</Text>
+        <Text className="text-lg font-bold">Watch this space for new mushroom updates as our database and learning model grows!</Text>
       </View>
       <FlatList 
         data={mushrooms}
