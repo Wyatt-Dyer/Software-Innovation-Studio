@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, Platform, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import * as tf from '@tensorflow/tfjs';
 
 const UploadModal = () => {
+  const navigation = useNavigation();
+
   const [image, setImage] = useState('');
   const [havePermissions, setHavePermissions] = useState(false)
   // const [model, setModel] = useState(null);
@@ -104,7 +107,7 @@ const UploadModal = () => {
       });
 
       // Make the POST request to upload the image
-      const response = await axios.post('http://192.168.0.7:5000/upload', formData, {
+      const response = await axios.post('http://192.168.0.110:8080/upload', formData, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
@@ -121,7 +124,17 @@ const UploadModal = () => {
 
       console.log('Response from client: ', response);
       if (response.status === 201) {
-        Alert.alert('Image uploaded successfully!');
+        Alert.alert(
+          "Success",
+          "Image uploaded successfully!",
+          [
+            {
+              text: "OK",
+              onPress: () => navigation.navigate('Home', { scrollToBottom: true, refresh: true }),
+            }
+          ],
+          { cancelable: false }
+        );
       }
     } catch (error) {
       console.log('Error from formData: ' + error);
