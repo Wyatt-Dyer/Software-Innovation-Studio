@@ -10,7 +10,7 @@ import os
 import base64
 
 app = Flask(__name__)
-CORS(app, resources={r"/*" : {"origins" : ["http://localhost:8080", "http://localhost:8081"]}})
+CORS(app)
 
 # Load the mushroom classifier model
 model = tf.keras.models.load_model('./model/model.keras')
