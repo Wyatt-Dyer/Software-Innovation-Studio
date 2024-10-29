@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the mushroom classifier model
-model = tf.keras.models.load_model('/server/model/model.keras')
+model = tf.keras.models.load_model('Software-Innovation-Studio/server/model/model.keras')
 
 base_model = EfficientNetB3(include_top=False, weights='imagenet', pooling='avg')
 
