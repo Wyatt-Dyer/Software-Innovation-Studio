@@ -6,6 +6,7 @@ from tensorflow.keras.applications.efficientnet import EfficientNetB3, preproces
 from PIL import Image
 import numpy as np
 import io
+import os
 import base64
 
 app = Flask(__name__)
@@ -56,4 +57,4 @@ def convert_image_to_base64(image):
     return base64.b64encode(buffered.getvalue()).decode()
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
