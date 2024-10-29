@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, Platform, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 
 const UploadModal = () => {
+  const navigation = useNavigation();
+
   const [image, setImage] = useState('');
   const [havePermissions, setHavePermissions] = useState(false)
   // const [model, setModel] = useState(null);
@@ -123,7 +126,17 @@ const UploadModal = () => {
 
       console.log('Response from client: ', response);
       if (response.status === 201) {
-        Alert.alert('Image uploaded successfully!');
+        Alert.alert(
+          "Success",
+          "Image uploaded successfully!",
+          [
+            {
+              text: "OK",
+              onPress: () => navigation.navigate('Home', { scrollToBottom: true, refresh: true }),
+            }
+          ],
+          { cancelable: false }
+        );
       }
     } catch (error) {
       console.log('Error from formData: ' + error);

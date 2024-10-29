@@ -30,7 +30,7 @@ export default function HomeScreen() {
   const navigation = useNavigation(); // Get the navigation object
 
   useEffect(() => {
-    (async () => {
+    const fetchPosts = async () => {
       try {
         const response = await axios.get('http://192.168.0.13:8081/posts');
         if (posts.length > 2) {
@@ -44,10 +44,16 @@ export default function HomeScreen() {
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
-    })();
+    };
+
+    const timer = setTimeout(() => {
+      fetchPosts();
+    }, 4000); // wait 4s for posts to be fetched
+
+    return () => clearTimeout(timer);
     // currently function only runs once when component mounts, so requires a hot reload
     // need to be tied to the upload event to update the DOM
-  }, []);
+  }, [route.params?.scrollToBottom]);
 
   const renderItem = ({ item }) => (
     <TouchableOpacity className="bg-white p-4 mb-4 rounded-lg shadow-md" onPress={() => navigation.navigate('Campfire', {
