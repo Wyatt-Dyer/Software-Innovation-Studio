@@ -109,7 +109,7 @@ const UploadModal = () => {
       console.log('FormData contents:', formData);
 
       // Make the POST request to upload the image
-      const response = await axios.post('http://192.168.0.5:5000/upload', formData, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/upload`, formData, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
