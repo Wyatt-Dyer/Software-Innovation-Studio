@@ -32,7 +32,7 @@ export default function HomeScreen() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get('http://192.168.0.110:8080/posts');
+        const response = await axios.get('http://192.168.0.13:8081/posts');
         if (posts.length > 2) {
           posts.splice(2); // remove all except mocked data before re-fetching posts
         }

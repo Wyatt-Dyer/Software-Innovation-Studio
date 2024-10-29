@@ -3,7 +3,6 @@ import { View, Image, Platform, Text, TouchableOpacity, ActivityIndicator, Alert
 import * as ImagePicker from 'expo-image-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
-import * as tf from '@tensorflow/tfjs';
 
 const UploadModal = () => {
   const [image, setImage] = useState('');
@@ -70,30 +69,31 @@ const UploadModal = () => {
   const scanImage = async () => {
     try {
       if (havePermissions) {
+        // Open the camera and take a photo
         let result = await ImagePicker.launchCameraAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: false,
-          aspect: [4, 3],
-          quality: 1,
-          cameraType: ImagePicker.CameraType.rear,
+          quality: 0.5,
         });
 
+        // Check if the user didn't cancel
         if (!result.canceled) {
           const imageUri = result.assets[0].uri;
           setImage(imageUri);
-          uploadImage(imageUri);
+          await uploadImage(imageUri);
         }
+      } else {
+        Alert.alert("Permissions not granted", "Please allow camera access.");
       }
-    }
-    catch (error) {
-      console.log(error);
+    } catch (error) {
+      console.log("Error in scanImage:", error.message); // Limited log output
+      Alert.alert("Error capturing image. Please try again.");
     }
   };
 
   const uploadImage = async (imageUri) => {
     setLoading(true); // Start loading
     try {
-      // create form data to hold image data
       const formData = new FormData();
       const fileName = imageUri.split('/').pop();
       const fileType = fileName.split('.').pop();
@@ -103,8 +103,10 @@ const UploadModal = () => {
         type: `image/${fileType}`,
       });
 
+      console.log('FormData contents:', formData);
+
       // Make the POST request to upload the image
-      const response = await axios.post('http://192.168.0.7:5000/upload', formData, {
+      const response = await axios.post('http://192.168.0.5:5000/upload', formData, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
@@ -125,6 +127,7 @@ const UploadModal = () => {
       }
     } catch (error) {
       console.log('Error from formData: ' + error);
+      Alert.alert('There was a problem. Please try again later')
     } finally {
       setLoading(false); // Stop loading
     }
